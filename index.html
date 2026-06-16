@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quem aspira?</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f4f2;
+      --card: #ffffff;
+      --border: rgba(0,0,0,0.1);
+      --text: #1a1a18;
+      --text-secondary: #6b6b68;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    /* HEADER */
+    .header { padding: 20px 16px 0; }
+    .header-card {
+      background: #444441;
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .header-card h1 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      padding: 14px 16px 0;
+      border-bottom: 0.5px solid var(--border);
+      margin: 0 0 0;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px 0;
+      font-size: 14px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
+
+    /* CONTENT */
+    .content { flex: 1; padding: 20px 16px; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* CARDS */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 0.5px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .turn-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .avatar-big {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 500;
+      margin: 0 auto 16px;
+    }
+    .avatar-joao { background: #E6F1FB; color: #0C447C; }
+    .avatar-rafael { background: #EAF3DE; color: #27500A; }
+
+    .person-name {
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .badge-pending { background: #FAEEDA; color: #633806; }
+    .badge-done { background: #EAF3DE; color: #27500A; }
+
+    /* BUTTONS */
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      border-radius: var(--radius-lg);
+      border: none;
+      background: var(--text);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.15s;
+      margin-bottom: 12px;
+    }
+    .btn-primary:active { opacity: 0.8; }
+    .btn-primary:disabled { opacity: 0.35; cursor: default; }
+
+    /* NEXT INFO */
+    .next-info {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 0.5px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .next-info-left { font-size: 13px; color: var(--text-secondary); }
+    .next-info-right { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--text); }
+    .avatar-sm {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500;
+    }
+
+    /* DONE */
+    .done-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #EAF3DE;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 26px;
+      color: #27500A;
+    }
+    .done-title { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
+    .done-sub { font-size: 14px; color: var(--text-secondary); }
+
+    /* RANDOM */
+    .random-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
+    .countdown-area {
+      min-height: 120px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 28px;
+    }
+    .countdown-hint { font-size: 14px; color: var(--text-secondary); }
+    .countdown-num {
+      font-size: 72px; font-weight: 500; color: var(--text); line-height: 1;
+      animation: pop 0.4s ease;
+    }
+    .reveal-name {
+      font-size: 34px; font-weight: 500;
+      animation: pop 0.5s ease;
+    }
+    .reveal-name.joao { color: #185FA5; }
+    .reveal-name.rafael { color: #3B6D11; }
+    .reveal-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: 500;
+      animation: pop 0.5s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1.4); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="header-card">
+      <h1>Quem aspira?</h1>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('turno')">Este fim de semana</button>
+    <button class="tab" onclick="switchTab('aleatorio')">Sorteio</button>
+  </div>
+
+  <div class="content">
+
+    <!-- TAB: TURNO -->
+    <div class="panel active" id="panel-turno">
+
+      <div id="pending-view">
+        <div class="card">
+          <p class="turn-label">A aspirar agora</p>
+          <div class="avatar-big" id="main-avatar"></div>
+          <p class="person-name" id="main-name"></p>
+          <span class="badge badge-pending">
+            <i class="ti ti-clock"></i> Por fazer
+          </span>
+        </div>
+        <button class="btn-primary" onclick="markDone()">
+          <i class="ti ti-check"></i> Marcar como feito
+        </button>
+        <div class="next-info">
+          <span class="next-info-left">Na próxima semana</span>
+          <div class="next-info-right">
+            <div class="avatar-sm" id="next-avatar"></div>
+            <span id="next-name"></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="done-view" style="display:none;">
+        <div class="card">
+          <div class="done-icon"><i class="ti ti-check"></i></div>
+          <p class="done-title" id="done-name"></p>
+          <p class="done-sub">Quarto aspirado esta semana ✓</p>
+        </div>
+        <div class="next-info">
+          <span class="next-info-left">Na próxima semana</span>
+          <div class="next-info-right">
+            <div class="avatar-sm" id="next-avatar2"></div>
+            <span id="next-name2"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB: SORTEIO -->
+    <div class="panel" id="panel-aleatorio">
+      <div class="card">
+        <p class="turn-label">Sortear quem começa</p>
+        <p class="random-sub">Faz reset e escolhe aleatoriamente quem aspira este fim de semana.</p>
+        <div class="countdown-area" id="countdown-area">
+          <p class="countdown-hint">Carrega no botão para sortear</p>
+        </div>
+        <button class="btn-primary" id="random-btn" onclick="startSortear()">
+          <i class="ti ti-dice"></i> Sortear
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'quem-aspira-v1';
+  const people = [
+    { id: 'joao',   name: 'João',   initials: 'J', avatarClass: 'avatar-joao',   smBg: '#B5D4F4', smColor: '#0C447C' },
+    { id: 'rafael', name: 'Rafael', initials: 'R', avatarClass: 'avatar-rafael', smBg: '#C0DD97', smColor: '#27500A' }
+  ];
+
+  function loadState() {
+    try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(e) {}
+    return { currentIdx: 0, done: false };
+  }
+  function saveState(s) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch(e) {} }
+
+  let state = loadState();
+  const nextIdx = i => (i + 1) % 2;
+
+  function renderTurno() {
+    const cur = people[state.currentIdx], nxt = people[nextIdx(state.currentIdx)];
+    document.getElementById('main-avatar').className = 'avatar-big ' + cur.avatarClass;
+    document.getElementById('main-avatar').textContent = cur.initials;
+    document.getElementById('main-name').textContent = cur.name;
+    if (state.done) {
+      document.getElementById('pending-view').style.display = 'none';
+      document.getElementById('done-view').style.display = 'block';
+      document.getElementById('done-name').textContent = cur.name + ' aspirou!';
+      const na2 = document.getElementById('next-avatar2');
+      na2.style.background = nxt.smBg; na2.style.color = nxt.smColor; na2.textContent = nxt.initials;
+      document.getElementById('next-name2').textContent = nxt.name;
+    } else {
+      document.getElementById('pending-view').style.display = 'block';
+      document.getElementById('done-view').style.display = 'none';
+      const na = document.getElementById('next-avatar');
+      na.style.background = nxt.smBg; na.style.color = nxt.smColor; na.textContent = nxt.initials;
+      document.getElementById('next-name').textContent = nxt.name;
+    }
+  }
+
+  function markDone() { state.done = true; saveState(state); renderTurno(); }
+
+  function switchTab(t) {
+    document.querySelectorAll('.tab').forEach((el, i) => {
+      el.classList.toggle('active', (i === 0 && t === 'turno') || (i === 1 && t === 'aleatorio'));
+    });
+    document.getElementById('panel-turno').classList.toggle('active', t === 'turno');
+    document.getElementById('panel-aleatorio').classList.toggle('active', t === 'aleatorio');
+  }
+
+  let sorting = false;
+  function startSortear() {
+    if (sorting) return;
+    sorting = true;
+    document.getElementById('random-btn').disabled = true;
+    const area = document.getElementById('countdown-area');
+    let count = 3;
+    function tick() {
+      if (count > 0) {
+        area.innerHTML = '<span class="countdown-num">' + count + '</span>';
+        count--; setTimeout(tick, 700);
+      } else {
+        const chosen = Math.floor(Math.random() * 2), p = people[chosen];
+        state = { currentIdx: chosen, done: false }; saveState(state); renderTurno();
+        area.innerHTML = '<div style="text-align:center"><div class="reveal-avatar ' + p.avatarClass + '">' + p.initials + '</div><p class="reveal-name ' + p.id + '">' + p.name + '</p></div>';
+        setTimeout(() => {
+          sorting = false;
+          document.getElementById('random-btn').disabled = false;
+          area.innerHTML = '<p class="countdown-hint">Carrega no botão para sortear</p>';
+        }, 2500);
+      }
+    }
+    tick();
+  }
+
+  renderTurno();
+</script>
+</body>
+</html>
