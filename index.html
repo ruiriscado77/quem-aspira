@@ -64,8 +64,7 @@
       font-family: "Fredoka", sans-serif; font-size: 22px; font-weight: 600;
       color: #fff; letter-spacing: -0.01em;
     }
-    .header-emoji { font-size: 26px; display: inline-block; animation: headerWiggle 2.6s ease-in-out infinite; }
-    @keyframes headerWiggle { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(-14deg); } 75% { transform: rotate(14deg); } }
+
 
     .tabs {
       display: flex; gap: 4px; margin: 16px 16px 0; padding: 4px;
@@ -156,14 +155,14 @@
 
     .btn-primary {
       width: 100%; padding: 15px; border-radius: 999px; border: none;
-      background: linear-gradient(135deg, #FF8A3D, #FF5E62);
+      background: #2F6FED;
       color: #fff; font-size: 16px; font-weight: 700;
       font-family: "Nunito", sans-serif;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       gap: 8px; transition: transform 0.15s ease, box-shadow 0.15s; margin-bottom: 12px;
-      box-shadow: 0 8px 20px rgba(255,122,62,0.45);
+      box-shadow: 0 8px 20px rgba(47,111,237,0.4);
     }
-    .btn-primary:active { transform: scale(0.95); box-shadow: 0 4px 10px rgba(255,122,62,0.4); }
+    .btn-primary:active { transform: scale(0.95); box-shadow: 0 4px 10px rgba(47,111,237,0.35); }
     .btn-primary:disabled { opacity: 0.4; cursor: default; transform: none; }
     .next-info {
       background: var(--surface-glass); backdrop-filter: blur(6px);
@@ -250,7 +249,7 @@
 <body>
 <div class="app">
   <div class="header">
-    <div class="header-card"><span class="header-emoji">🧹</span><h1>Quem aspira?</h1></div>
+    <div class="header-card"><h1>Quem aspira?</h1></div>
   </div>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('turno')">Este fim de semana</button>
