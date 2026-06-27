@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Quem aspira?" />
-  <meta name="theme-color" content="#6C5CE7" />
+  <meta name="theme-color" content="#FF8A3D" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -17,11 +17,11 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --ink: #2B2750;
-      --ink-soft: #6F6B95;
-      --surface: #FFFDF8;
-      --surface-glass: rgba(255,253,248,0.78);
-      --border: rgba(43,39,80,0.08);
+      --ink: #4A2E14;
+      --ink-soft: #9C7350;
+      --surface: #FFFCF5;
+      --surface-glass: rgba(255,252,245,0.78);
+      --border: rgba(74,46,20,0.1);
       --radius-lg: 20px;
       --radius-xl: 28px;
       --joao: #2F80ED;
@@ -30,13 +30,13 @@
       --rafael: #1FAF7F;
       --rafael-soft: #DAF6EB;
       --rafael-deep: #176B4E;
-      --gold: #FFB648;
-      --gold-soft: #FFF1D6;
-      --gold-deep: #8A5A00;
+      --gold: #FF8A3D;
+      --gold-soft: #FFE9D2;
+      --gold-deep: #9A4B00;
     }
     html, body { font-family: "Nunito", -apple-system, sans-serif; }
     body {
-      background: linear-gradient(160deg, #7C6CF0 0%, #B26CE6 45%, #FF8FB4 100%);
+      background: linear-gradient(160deg, #FFE066 0%, #FFAB3D 45%, #FF7A5C 100%);
       min-height: 100dvh;
       display: flex;
       justify-content: center;
@@ -47,9 +47,9 @@
       position: fixed; border-radius: 50%; filter: blur(50px);
       opacity: 0.55; pointer-events: none; z-index: 0;
     }
-    .blob1 { width: 280px; height: 280px; top: -80px; left: -90px; background: #FFD166; animation: floatA 16s ease-in-out infinite; }
-    .blob2 { width: 240px; height: 240px; bottom: -60px; right: -80px; background: #4FD6C8; animation: floatB 19s ease-in-out infinite; }
-    .blob3 { width: 200px; height: 200px; top: 38%; right: -90px; background: #FF6FA0; opacity: 0.4; animation: floatC 13s ease-in-out infinite; }
+    .blob1 { width: 280px; height: 280px; top: -80px; left: -90px; background: #FFF1A8; animation: floatA 16s ease-in-out infinite; }
+    .blob2 { width: 240px; height: 240px; bottom: -60px; right: -80px; background: #3EC9C2; opacity: 0.4; animation: floatB 19s ease-in-out infinite; }
+    .blob3 { width: 200px; height: 200px; top: 38%; right: -90px; background: #FF4D4D; opacity: 0.32; animation: floatC 13s ease-in-out infinite; }
     @keyframes floatA { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,40px) scale(1.12); } }
     @keyframes floatB { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-25px,-30px) scale(1.08); } }
     @keyframes floatC { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-20px,25px) scale(0.92); } }
@@ -165,14 +165,14 @@
 
     .btn-primary {
       width: 100%; padding: 15px; border-radius: 999px; border: none;
-      background: linear-gradient(135deg, #6C5CE7, #A05CE7);
+      background: linear-gradient(135deg, #FF8A3D, #FF5E62);
       color: #fff; font-size: 16px; font-weight: 700;
       font-family: "Nunito", sans-serif;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       gap: 8px; transition: transform 0.15s ease, box-shadow 0.15s; margin-bottom: 12px;
-      box-shadow: 0 8px 20px rgba(108,92,231,0.45);
+      box-shadow: 0 8px 20px rgba(255,122,62,0.45);
     }
-    .btn-primary:active { transform: scale(0.95); box-shadow: 0 4px 10px rgba(108,92,231,0.4); }
+    .btn-primary:active { transform: scale(0.95); box-shadow: 0 4px 10px rgba(255,122,62,0.4); }
     .btn-primary:disabled { opacity: 0.4; cursor: default; transform: none; }
     .next-info {
       background: var(--surface-glass); backdrop-filter: blur(6px);
@@ -226,7 +226,7 @@
       font-size: 78px; font-weight: 700; color: var(--ink); line-height: 1;
       animation: countdownPop 0.7s cubic-bezier(.36,1.6,.4,1);
       display: inline-block;
-      background: linear-gradient(135deg, #6C5CE7, #FF6FA0);
+      background: linear-gradient(135deg, #FF8A3D, #FF4D4D);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
     @keyframes countdownPop {
@@ -409,7 +409,7 @@
   function fireConfetti() {
     const icon = document.querySelector('#done-view .done-icon');
     if (!icon) return;
-    const colors = ['#1FAF7F', '#2F80ED', '#FFB648', '#FF6FA0', '#6C5CE7'];
+    const colors = ['#FF8A3D', '#FFD166', '#FF5E62', '#1FAF7F', '#2F80ED'];
     for (let i = 0; i < 18; i++) {
       const piece = document.createElement('span');
       piece.className = 'confetti-piece';
