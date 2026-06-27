@@ -38,10 +38,11 @@
     }
     .header { padding: 20px 16px 0; }
     .header-card {
-      background: #444441;
+      background: linear-gradient(135deg, #4d4a46, #38362f);
       border-radius: var(--radius-lg);
       padding: 20px 24px;
       text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
     }
     .header-card h1 { font-size: 20px; font-weight: 500; color: #ffffff; }
     .tabs { display: flex; padding: 14px 16px 0; border-bottom: 0.5px solid var(--border); }
@@ -57,6 +58,8 @@
       background: var(--card); border-radius: var(--radius-lg);
       border: 0.5px solid var(--border); padding: 24px;
       text-align: center; margin-bottom: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+      transition: box-shadow 0.25s ease;
     }
     .turn-label {
       font-size: 11px; color: var(--text-secondary);
@@ -79,10 +82,10 @@
       width: 100%; padding: 14px; border-radius: var(--radius-lg); border: none;
       background: var(--text); color: #fff; font-size: 16px; font-weight: 500;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
-      gap: 8px; transition: opacity 0.15s; margin-bottom: 12px;
+      gap: 8px; transition: transform 0.15s ease, opacity 0.15s; margin-bottom: 12px;
     }
-    .btn-primary:active { opacity: 0.8; }
-    .btn-primary:disabled { opacity: 0.35; cursor: default; }
+    .btn-primary:active { opacity: 0.85; transform: scale(0.96); }
+    .btn-primary:disabled { opacity: 0.35; cursor: default; transform: none; }
     .next-info {
       background: var(--card); border-radius: var(--radius-lg);
       border: 0.5px solid var(--border); padding: 14px 16px;
@@ -99,6 +102,23 @@
       width: 60px; height: 60px; border-radius: 50%;
       background: #EAF3DE; display: flex; align-items: center; justify-content: center;
       margin: 0 auto 12px; font-size: 26px; color: #27500A;
+      animation: doneBounce 0.7s cubic-bezier(.36,1.7,.4,1);
+      position: relative;
+    }
+    @keyframes doneBounce {
+      0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+      55%  { transform: scale(1.25) rotate(8deg); opacity: 1; }
+      75%  { transform: scale(0.9) rotate(-4deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .confetti-piece {
+      position: absolute; top: 50%; left: 50%; width: 6px; height: 10px;
+      border-radius: 2px; opacity: 0; pointer-events: none;
+      animation: confettiBurst 0.9s ease-out forwards;
+    }
+    @keyframes confettiBurst {
+      0%   { opacity: 1; transform: translate(-50%, -50%) rotate(0deg) translateY(0); }
+      100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--rot)) translate(var(--dx), var(--dy)); }
     }
     .done-title { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
     .done-sub { font-size: 14px; color: var(--text-secondary); }
@@ -108,14 +128,31 @@
       justify-content: center; margin-bottom: 28px;
     }
     .countdown-hint { font-size: 14px; color: var(--text-secondary); }
-    .countdown-num { font-size: 72px; font-weight: 500; color: var(--text); line-height: 1; animation: pop 0.4s ease; }
+    .countdown-num {
+      font-size: 76px; font-weight: 600; color: var(--text); line-height: 1;
+      animation: countdownPop 0.7s cubic-bezier(.36,1.6,.4,1);
+      display: inline-block;
+    }
+    @keyframes countdownPop {
+      0%   { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+      55%  { transform: scale(1.25) rotate(4deg); opacity: 1; }
+      75%  { transform: scale(0.92) rotate(-2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
     .reveal-name { font-size: 34px; font-weight: 500; animation: pop 0.5s ease; }
     .reveal-name.joao { color: #185FA5; }
     .reveal-name.rafael { color: #3B6D11; }
     .reveal-avatar {
       width: 80px; height: 80px; border-radius: 50%;
       margin: 0 auto 16px; display: flex; align-items: center;
-      justify-content: center; font-size: 28px; font-weight: 500; animation: pop 0.5s ease;
+      justify-content: center; font-size: 28px; font-weight: 500;
+      animation: revealBounce 0.6s cubic-bezier(.36,1.7,.4,1);
+    }
+    @keyframes revealBounce {
+      0%   { transform: scale(0) rotate(0deg); opacity: 0; }
+      60%  { transform: scale(1.2) rotate(8deg); opacity: 1; }
+      80%  { transform: scale(0.92) rotate(-4deg); }
+      100% { transform: scale(1) rotate(0deg); }
     }
     @keyframes pop { 0% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
@@ -270,6 +307,25 @@
     }
   }
 
+  function fireConfetti() {
+    const icon = document.querySelector('#done-view .done-icon');
+    if (!icon) return;
+    const colors = ['#27500A', '#185FA5', '#FAB95B', '#9b3a3a', '#6b6b68'];
+    for (let i = 0; i < 16; i++) {
+      const piece = document.createElement('span');
+      piece.className = 'confetti-piece';
+      const angle = (Math.PI * 2 * i) / 16 + Math.random() * 0.4;
+      const dist = 60 + Math.random() * 40;
+      piece.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+      piece.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+      piece.style.setProperty('--rot', (Math.random() * 360 - 180) + 'deg');
+      piece.style.background = colors[i % colors.length];
+      piece.style.animationDelay = (Math.random() * 0.08) + 's';
+      icon.appendChild(piece);
+      setTimeout(() => piece.remove(), 1100);
+    }
+  }
+
   function markDone() {
     state.done = true;
     saveState(state);
@@ -277,6 +333,12 @@
     saveHistory(history);
     renderTurno();
     renderHistory();
+    fireConfetti();
+    setTimeout(() => {
+      state = { currentIdx: nextIdx(state.currentIdx), done: false };
+      saveState(state);
+      renderTurno();
+    }, 3000);
   }
 
   function switchTab(t) {
