@@ -96,33 +96,13 @@
     .mascot--xl { width: 112px; height: 112px; }
     @keyframes mascotFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(-2deg); } }
     .mascot-face {
-      width: 100%; height: 100%; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; box-shadow: inset 0 -10px 18px rgba(0,0,0,0.08), 0 8px 0 rgba(0,0,0,0.06);
+      width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
+      position: relative; box-shadow: 0 8px 0 rgba(0,0,0,0.06);
     }
-    .mascot-joao .mascot-face { background: radial-gradient(circle at 32% 28%, #EAF4FF, var(--joao-soft) 60%, #BFD9FB 100%); }
-    .mascot-rafael .mascot-face { background: radial-gradient(circle at 32% 28%, #E6FBF1, var(--rafael-soft) 60%, #B6EFD4 100%); }
-    .mascot-joao::before {
-      content: ''; position: absolute; top: -8px; left: 50%; width: 10px; height: 18px;
-      background: var(--joao); border-radius: 6px; transform: translateX(-50%) rotate(-6deg);
-    }
-    .mascot-rafael::before {
-      content: ''; position: absolute; top: -10px; left: 56%; width: 8px; height: 22px;
-      background: var(--rafael); border-radius: 6px 6px 6px 0; transform: rotate(18deg);
-    }
-    .mascot-eyes { display: flex; gap: 18px; position: absolute; top: 38%; left: 50%; transform: translate(-50%,-50%); }
-    .mascot--sm .mascot-eyes, .mascot--md .mascot-eyes { gap: 10px; }
-    .eye { width: 9px; height: 9px; border-radius: 50%; background: var(--ink); animation: blink 4.4s ease-in-out infinite; }
-    .mascot--sm .eye, .mascot--md .eye { width: 5px; height: 5px; }
-    .eye:nth-child(2) { animation-delay: 0.06s; }
-    @keyframes blink { 0%,90%,100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
-    .mascot-mouth {
-      position: absolute; top: 58%; left: 50%; transform: translateX(-50%);
-      width: 18px; height: 6px; border-radius: 0 0 14px 14px; background: var(--ink); opacity: 0.85;
-    }
-    .mood-happy .mascot-eyes { top: 40%; }
-    .mood-happy .eye { width: 9px; height: 5px; border-radius: 5px 5px 0 0; animation: none; }
-    .mood-happy .mascot-mouth { width: 30px; height: 16px; border-radius: 0 0 30px 30px; top: 56%; }
+    .mascot-face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mascot-joao .mascot-face { background: var(--joao-soft); }
+    .mascot-rafael .mascot-face { background: var(--rafael-soft); }
+    .mascot-eyes, .mascot-mouth { display: none; }
     .mascot-blush { position: absolute; top: 56%; width: 14px; height: 9px; border-radius: 50%; background: rgba(255,111,160,0.55); opacity: 0; }
     .mood-happy .mascot-blush { opacity: 1; }
     .blush-l { left: 6%; } .blush-r { right: 6%; }
@@ -174,10 +154,9 @@
     .next-info-right { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: var(--ink); }
     .avatar-sm {
       width: 30px; height: 30px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 800; flex-shrink: 0;
-      font-family: "Fredoka", sans-serif;
+      overflow: hidden; flex-shrink: 0;
     }
+    .avatar-sm img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .done-icon {
       width: 64px; height: 64px; border-radius: 50%;
@@ -316,8 +295,8 @@
   const STORAGE_KEY = 'quem-aspira-v1';
   const HISTORY_KEY = 'quem-aspira-historico-v1';
   const people = [
-    { id: 'joao',   name: 'João',   initials: 'J', smBg: '#DCEBFF', smColor: '#0C447C' },
-    { id: 'rafael', name: 'Rafael', initials: 'R', smBg: '#DAF6EB', smColor: '#176B4E' }
+    { id: 'joao',   name: 'João',   photo: 'avatars/joao-512.png',   photoSm: 'avatars/joao-128.png' },
+    { id: 'rafael', name: 'Rafael', photo: 'avatars/rafael-512.png', photoSm: 'avatars/rafael-128.png' }
   ];
 
   function loadState() { try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(e) {} return { currentIdx: 0, done: false }; }
@@ -331,14 +310,11 @@
 
   function buildMascot(person, mood, size, id) {
     return '<div class="mascot mascot--' + size + ' mascot-' + person.id + ' mood-' + mood + '"' + (id ? ' id="' + id + '"' : '') + '>' +
-      '<div class="mascot-face">' +
-        '<div class="mascot-sparkle sparkle-1">✨</div>' +
-        '<div class="mascot-sparkle sparkle-2">✨</div>' +
-        '<div class="mascot-blush blush-l"></div>' +
-        '<div class="mascot-blush blush-r"></div>' +
-        '<div class="mascot-eyes"><span class="eye"></span><span class="eye"></span></div>' +
-        '<div class="mascot-mouth"></div>' +
-      '</div>' +
+      '<div class="mascot-face"><img src="' + person.photo + '" alt="' + person.name + '"></div>' +
+      '<div class="mascot-sparkle sparkle-1">✨</div>' +
+      '<div class="mascot-sparkle sparkle-2">✨</div>' +
+      '<div class="mascot-blush blush-l"></div>' +
+      '<div class="mascot-blush blush-r"></div>' +
     '</div>';
   }
 
@@ -358,7 +334,7 @@
     list.innerHTML = history.slice().reverse().map(entry => {
       const p = people.find(pp => pp.id === entry.personId) || people[0];
       return '<div class="history-item">' +
-        '<div class="avatar-sm" style="background:' + p.smBg + ';color:' + p.smColor + '">' + p.initials + '</div>' +
+        '<div class="avatar-sm"><img src="' + p.photoSm + '" alt="' + p.name + '"></div>' +
         '<div class="history-info"><div class="history-name">' + p.name + '</div><div class="history-date">' + formatDate(entry.date) + '</div></div>' +
         '<i class="ti ti-check history-check"></i>' +
         '</div>';
@@ -382,13 +358,13 @@
       document.getElementById('done-view').style.display = 'block';
       document.getElementById('done-name').textContent = cur.name + ' aspirou!';
       const na2 = document.getElementById('next-avatar2');
-      na2.style.background = nxt.smBg; na2.style.color = nxt.smColor; na2.textContent = nxt.initials;
+      na2.innerHTML = '<img src="' + nxt.photoSm + '" alt="' + nxt.name + '">';
       document.getElementById('next-name2').textContent = nxt.name;
     } else {
       document.getElementById('pending-view').style.display = 'block';
       document.getElementById('done-view').style.display = 'none';
       const na = document.getElementById('next-avatar');
-      na.style.background = nxt.smBg; na.style.color = nxt.smColor; na.textContent = nxt.initials;
+      na.innerHTML = '<img src="' + nxt.photoSm + '" alt="' + nxt.name + '">';
       document.getElementById('next-name').textContent = nxt.name;
     }
   }
