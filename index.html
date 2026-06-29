@@ -103,9 +103,6 @@
     .mascot-joao .mascot-face { background: var(--joao-soft); }
     .mascot-rafael .mascot-face { background: var(--rafael-soft); }
     .mascot-eyes, .mascot-mouth { display: none; }
-    .mascot-blush { position: absolute; top: 56%; width: 14px; height: 9px; border-radius: 50%; background: rgba(255,111,160,0.55); opacity: 0; }
-    .mood-happy .mascot-blush { opacity: 1; }
-    .blush-l { left: 6%; } .blush-r { right: 6%; }
     .mascot-sparkle {
       position: absolute; font-size: 16px; opacity: 0; pointer-events: none;
     }
@@ -313,8 +310,6 @@
       '<div class="mascot-face"><img src="' + person.photo + '" alt="' + person.name + '"></div>' +
       '<div class="mascot-sparkle sparkle-1">✨</div>' +
       '<div class="mascot-sparkle sparkle-2">✨</div>' +
-      '<div class="mascot-blush blush-l"></div>' +
-      '<div class="mascot-blush blush-r"></div>' +
     '</div>';
   }
 
