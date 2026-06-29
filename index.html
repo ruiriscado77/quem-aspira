@@ -434,6 +434,12 @@
 
   renderTurno();
   renderHistory();
+
+  // pré-carrega as fotos para não aparecer o fundo placeholder por instantes
+  people.forEach(p => {
+    new Image().src = p.photo;
+    new Image().src = p.photoSm;
+  });
 </script>
 </body>
 </html>
